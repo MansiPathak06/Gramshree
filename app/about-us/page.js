@@ -70,7 +70,7 @@ const AboutUsPage = () => {
     {
       year: "2024",
       title: "Market Leadership",
-      description: "Achieved 350+ stores across 18 states. Recognized as one of India's fastest-growing franchise networks with government backing.",
+      description: "Achieved 350+ stores across 18 states. Recognized as one of India&apos;s fastest-growing franchise networks with government backing.",
       achievements: ["350+ stores nationwide", "18 states presence", "Industry recognition awards", "₹200Cr+ revenue"]
     },
     {
@@ -192,7 +192,7 @@ const AboutUsPage = () => {
               <Eye className="w-12 h-12 text-orange-200 mb-6" />
               <h2 className="text-3xl font-bold mb-6">Our Vision</h2>
               <p className="text-lg leading-relaxed text-orange-100">
-                To become India's most trusted and accessible supermarket franchise network, creating 10,000+ 
+                To become India&apos;s most trusted and accessible supermarket franchise network, creating 10,000+ 
                 successful entrepreneurs by 2030 while revolutionizing grocery retail through technology, 
                 government partnerships, and community-focused growth.
               </p>
@@ -227,7 +227,7 @@ const AboutUsPage = () => {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Journey</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From a single store vision to India's fastest-growing franchise network - discover our growth story
+              From a single store vision to India&apos;s fastest-growing franchise network - discover our growth story
             </p>
           </div>
 
@@ -347,7 +347,7 @@ const AboutUsPage = () => {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">Leadership Team</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Meet the experienced professionals driving Gram Shree Mart's mission across India
+              Meet the experienced professionals driving Gram Shree Mart%apos;s mission across India
             </p>
           </div>
 

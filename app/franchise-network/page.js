@@ -452,7 +452,7 @@ const FranchiseNetworkPage = () => {
                         <Target className="w-12 h-12 text-yellow-600 mx-auto mb-3" />
                         <h4 className="font-semibold text-gray-900 mb-2">Opening Soon!</h4>
                         <p className="text-sm text-gray-600">
-                          We're expanding to {selectedState}. Be among the first franchise partners in this location.
+                          We&apos;re expanding to {selectedState}. Be among the first franchise partners in this location.
                         </p>
                       </div>
                       
@@ -654,7 +654,7 @@ const FranchiseNetworkPage = () => {
             Ready to Expand Our Network Together?
           </h2>
           <p className="text-xl text-white/90 mb-8 leading-relaxed">
-            Be part of India's fastest-growing franchise network. Prime locations are still available in key markets.
+            Be part of India&apos;s fastest-growing franchise network. Prime locations are still available in key markets.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button className="bg-white text-green-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg inline-flex items-center justify-center">

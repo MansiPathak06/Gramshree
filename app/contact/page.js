@@ -51,7 +51,7 @@ const ContactPage = () => {
   };
 
   const whatsappNumber = "919654443799";
-  const whatsappMessage = "Hi! I'm interested in Gramshree franchise opportunities. Please provide more information.";
+  const whatsappMessage = "Hi! I&apos;m interested in Gramshree franchise opportunities. Please provide more information.";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
@@ -69,7 +69,7 @@ const ContactPage = () => {
               </span>
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Get in touch with our franchise experts. We're here to help you start your entrepreneurial journey.
+              Get in touch with our franchise experts. We&apos;re here to help you start your entrepreneurial journey.
             </p>
           </div>
         </div>
