@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 
@@ -20,17 +20,17 @@ const Navbar = () => {
   }, []);
 
   // Toggle mobile menu
-  const toggleMobileMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMobileMenu = useCallback(() => {
+    setIsMenuOpen(prev => !prev);
+  }, []);
 
   // Close mobile menu when clicking on a link
-  const closeMobileMenu = () => {
+  const closeMobileMenu = useCallback(() => {
     setIsMenuOpen(false);
-  };
+  }, []);
 
   // Handle smooth scrolling for anchor links (only for same page)
-  const handleSmoothScroll = (e, targetId) => {
+  const handleSmoothScroll = useCallback((e, targetId) => {
     e.preventDefault();
     const target = document.querySelector(targetId);
     if (target) {
@@ -40,19 +40,19 @@ const Navbar = () => {
       });
     }
     closeMobileMenu();
-  };
+  }, [closeMobileMenu]);
 
   // Handle keyboard navigation
-  const handleKeyDown = (e) => {
+  const handleKeyDown = useCallback((e) => {
     if (e.key === 'Escape' && isMenuOpen) {
       closeMobileMenu();
     }
-  };
+  }, [isMenuOpen, closeMobileMenu]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isMenuOpen]);
+  }, [handleKeyDown]);
 
   return (
     <header 
@@ -88,11 +88,9 @@ const Navbar = () => {
                 <span className="absolute left-1/2 bottom-0 w-0 h-0.5 bg-[#4CAF50] transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
               </Link>
               
-              {/* FIXED: About Us - Use Link without onClick for page navigation */}
               <Link 
                 href="/about-us" 
                 className="text-gray-800 hover:text-[#4CAF50] font-medium transition-colors duration-300 relative group"
-                onClick={closeMobileMenu}
               >
                 About us 
                 <span className="absolute left-1/2 bottom-0 w-0 h-0.5 bg-[#4CAF50] transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
@@ -100,28 +98,28 @@ const Navbar = () => {
               
               <Link 
                 href="/partner-brands" 
-                  onClick={closeMobileMenu}
                 className="text-gray-800 hover:text-[#4CAF50] font-medium transition-colors duration-300 relative group"
               >
-               Partner Brands
+                Partner Brands
                 <span className="absolute left-1/2 bottom-0 w-0 h-0.5 bg-[#4CAF50] transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
               </Link>
+              
               <Link 
                 href="/franchise-network" 
-                onClick={closeMobileMenu}
                 className="text-gray-800 hover:text-[#4CAF50] font-medium transition-colors duration-300 relative group"
               >
                 Franchise Network
                 <span className="absolute left-1/2 bottom-0 w-0 h-0.5 bg-[#4CAF50] transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
               </Link>
+              
               <Link 
                 href="/govt-scheme" 
-                onClick={closeMobileMenu}
                 className="text-gray-800 hover:text-[#4CAF50] font-medium transition-colors duration-300 relative group"
               >
                 Govt Scheme
                 <span className="absolute left-1/2 bottom-0 w-0 h-0.5 bg-[#4CAF50] transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
               </Link>
+              
               <Link 
                 href="#resources" 
                 onClick={(e) => handleSmoothScroll(e, '#resources')}
@@ -130,6 +128,7 @@ const Navbar = () => {
                 Resources
                 <span className="absolute left-1/2 bottom-0 w-0 h-0.5 bg-[#4CAF50] transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
               </Link>
+              
               <Link 
                 href="#contact" 
                 onClick={(e) => handleSmoothScroll(e, '#contact')}
@@ -145,6 +144,7 @@ const Navbar = () => {
           <div className="hidden md:block">
             <button 
               className="bg-gradient-to-r from-[#f17e00] to-[#e06d00] text-white px-6 py-2 rounded-full font-semibold hover:from-[#e06d00] hover:to-[#d15c00] transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[#4CAF50] focus:ring-offset-2"
+              type="button"
             >
               Apply Now
             </button>
@@ -157,6 +157,7 @@ const Navbar = () => {
               className="text-gray-800 hover:text-[#4CAF50] transition-colors duration-300 p-2 focus:outline-none focus:ring-2 focus:ring-[#4CAF50] focus:ring-offset-2 rounded-md"
               aria-expanded={isMenuOpen}
               aria-label="Toggle mobile menu"
+              type="button"
             >
               <div className="relative w-6 h-6">
                 <Menu 
@@ -194,7 +195,6 @@ const Navbar = () => {
             Home
           </Link>
           
-          {/* FIXED: About Us Mobile Link */}
           <Link 
             href="/about-us" 
             onClick={closeMobileMenu}
@@ -210,20 +210,31 @@ const Navbar = () => {
           >
             Partner Brands
           </Link>
+          
           <Link 
-            href="#franchisenetwork" 
-            onClick={(e) => handleSmoothScroll(e, '#franchisenetwork')}
+            href="/franchise-network" 
+            onClick={closeMobileMenu}
             className="block px-3 py-3 text-gray-800 hover:text-[#4CAF50] hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium"
           >
             Franchise Network
           </Link>
+          
           <Link 
-            href="#govtscheme" 
-            onClick={(e) => handleSmoothScroll(e, '#govtscheme')}
+            href="/govt-scheme" 
+            onClick={closeMobileMenu}
             className="block px-3 py-3 text-gray-800 hover:text-[#4CAF50] hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium"
           >
             Govt Scheme
           </Link>
+          
+          <Link 
+            href="#resources" 
+            onClick={(e) => handleSmoothScroll(e, '#resources')}
+            className="block px-3 py-3 text-gray-800 hover:text-[#4CAF50] hover:bg-gray-50 rounded-md transition-colors duration-300 font-medium"
+          >
+            Resources
+          </Link>
+          
           <Link 
             href="#contact" 
             onClick={(e) => handleSmoothScroll(e, '#contact')}
@@ -236,8 +247,9 @@ const Navbar = () => {
           <div className="pt-4 pb-2">
             <button 
               className="w-full bg-gradient-to-r from-[#f17e00] to-[#e06d00] text-white px-4 py-3 rounded-lg font-semibold hover:from-[#e06d00] hover:to-[#d15c00] transition-all duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#4CAF50] focus:ring-offset-2"
+              type="button"
             >
-             Apply Now
+              Apply Now
             </button>
           </div>
         </div>

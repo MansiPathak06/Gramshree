@@ -1,7 +1,7 @@
-// app/About.js
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 
 const About = () => {
   const [play, setPlay] = useState(false);
@@ -23,11 +23,13 @@ const About = () => {
                       className="w-full h-full cursor-pointer relative"
                       onClick={() => setPlay(true)}
                     >
-                      {/* ✅ Your custom cover image (replace with your own file in /public/images) */}
-                      <img
+                      {/* ✅ Optimized Image */}
+                      <Image
                         src="/images/cover.png"
                         alt="Video Cover"
                         className="w-full h-full "
+                        fill
+                        priority
                       />
                       {/* Play button overlay */}
                       <div className="absolute inset-0 flex items-center justify-center bg-black/40">
@@ -77,18 +79,18 @@ const About = () => {
                 <p>
                   Gram Shree is one of the fastest-growing supermarket
                   franchises in India, with 20,000+ products from 1,500+
-                  national & international brands.
+                  national &amp; international brands.
                 </p>
                 <p>
-                  Our team had two visions from the start - to ease consumer's
-                  household grocery shopping and empower franchise owners with
-                  ready-to-operate stores in just 45 days.
+                  Our team had two visions from the start - to ease
+                  consumer&apos;s household grocery shopping and empower
+                  franchise owners with ready-to-operate stores in just 45 days.
                 </p>
                 <p>
                   With continuous growth, we are proud to have successfully
                   opened over 400 stores nationwide, offering top-quality
                   products at affordable prices such as grocery, home
-                  appliances, stationary etc.
+                  appliances, stationery, etc.
                 </p>
               </div>
             </div>

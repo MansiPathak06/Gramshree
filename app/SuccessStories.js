@@ -1,7 +1,6 @@
-// app/SuccessStories.js
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import {
   Star,
   Quote,
@@ -13,155 +12,167 @@ import {
   Award,
 } from "lucide-react";
 
+// Move data outside component to prevent re-renders
+const TESTIMONIALS_DATA = [
+  {
+    id: 1,
+    name: "Rajesh Kumar",
+    location: "Delhi",
+    businessName: "Gram Shree Mart - Lajpat Nagar",
+    photo: "/images/rajesh-kumar.jpg",
+    rating: 5,
+    quote:
+      "Starting my Gram Shree franchise was the best decision I ever made. Within 18 months, I recovered my entire investment and now I'm earning ₹2.5 lakhs monthly profit. The support team guided me through every step!",
+    joinedYear: "2023",
+    monthlyRevenue: "₹8.5 Lakhs",
+    profitMargin: "30%",
+    background: "Former IT Professional",
+  },
+  {
+    id: 2,
+    name: "Priya Sharma",
+    location: "Mumbai",
+    businessName: "Gram Shree Mart - Andheri West",
+    photo: "/images/priya-sharma.jpg",
+    rating: 5,
+    quote:
+      "As a woman entrepreneur, I was initially hesitant about starting a business. But Gram Shree's comprehensive training and ongoing support made everything smooth. Today, I'm running two successful stores!",
+    joinedYear: "2022",
+    monthlyRevenue: "₹12 Lakhs",
+    profitMargin: "35%",
+    background: "Homemaker turned Entrepreneur",
+  },
+  {
+    id: 3,
+    name: "Amit Patel",
+    location: "Ahmedabad",
+    businessName: "Gram Shree Mart - Satellite",
+    photo: "/images/amit-patel.jpg",
+    rating: 5,
+    quote:
+      "The training program was excellent and the business model is proven. I started with the Mini Mart format and within 2 years expanded to Super Mart. The ROI is outstanding!",
+    joinedYear: "2021",
+    monthlyRevenue: "₹15 Lakhs",
+    profitMargin: "32%",
+    background: "Small Business Owner",
+  },
+  {
+    id: 4,
+    name: "Sunita Reddy",
+    location: "Bangalore",
+    businessName: "Gram Shree Mart - Koramangala",
+    photo: "/images/sunita-reddy.jpg",
+    rating: 5,
+    quote:
+      "The government scheme support helped me get a loan easily. Gram Shree's tie-ups with MUDRA made the financing process hassle-free. Now I'm planning my second outlet!",
+    joinedYear: "2023",
+    monthlyRevenue: "₹10 Lakhs",
+    profitMargin: "28%",
+    background: "First-time Entrepreneur",
+  },
+];
+
+const CASE_STUDIES_DATA = [
+  {
+    id: 1,
+    title: "From Zero to Hero: Rajesh's Journey",
+    entrepreneur: "Rajesh Kumar",
+    location: "Delhi",
+    investment: "₹8 Lakhs",
+    timeline: "18 Months",
+    results: {
+      monthlyRevenue: "₹8.5L",
+      monthlyProfit: "₹2.5L",
+      roi: "280%",
+      growth: "+150%",
+    },
+    story:
+      "Rajesh, a former IT professional, invested ₹8 lakhs in 2023. With Gram Shree's proven system and local market insights, he achieved break-even in just 8 months. His store now serves 500+ customers daily.",
+    keyFactors: [
+      "Strategic location selection by Gram Shree team",
+      "Comprehensive 30-day training program",
+      "Strong supplier network ensuring 15% cost savings",
+      "Digital marketing support increasing footfall by 40%",
+    ],
+  },
+  {
+    id: 2,
+    title: "Scaling Success: Priya's Multi-Store Empire",
+    entrepreneur: "Priya Sharma",
+    location: "Mumbai",
+    investment: "₹12 Lakhs",
+    timeline: "24 Months",
+    results: {
+      monthlyRevenue: "₹24L",
+      monthlyProfit: "₹8L",
+      roi: "320%",
+      growth: "+200%",
+    },
+    story:
+      "Priya started with one store and expanded to two locations within 24 months. Her success demonstrates the scalability of Gram Shree's business model with systematic expansion strategies.",
+    keyFactors: [
+      "Multi-location expansion support",
+      "Advanced inventory management systems",
+      "Staff training and management programs",
+      "Cross-promotional marketing strategies",
+    ],
+  },
+  {
+    id: 3,
+    title: "Government Support Success: Sunita's Story",
+    entrepreneur: "Sunita Reddy",
+    location: "Bangalore",
+    investment: "₹6 Lakhs",
+    timeline: "12 Months",
+    results: {
+      monthlyRevenue: "₹10L",
+      monthlyProfit: "₹2.8L",
+      roi: "250%",
+      growth: "+180%",
+    },
+    story:
+      "Sunita leveraged government schemes through Gram Shree's assistance, getting 25% subsidy on her investment. Her success shows how policy support can accelerate entrepreneurial growth.",
+    keyFactors: [
+      "MUDRA loan facilitation with 7% interest rate",
+      "25% government subsidy on project cost",
+      "Skill development program certification",
+      "Priority supplier credit terms",
+    ],
+  },
+];
+
 const SuccessStories = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [activeCaseStudy, setActiveCaseStudy] = useState(0);
+  const [activeCaseStudy, setActiveCaseStudy] = useState(null);
 
-  const testimonials = [
-    {
-      id: 1,
-      name: "Rajesh Kumar",
-      location: "Delhi",
-      businessName: "Gram Shree Mart - Lajpat Nagar",
-      photo: "/images/rajesh-kumar.jpg", // Placeholder
-      rating: 5,
-      quote:
-        "Starting my Gram Shree franchise was the best decision I ever made. Within 18 months, I recovered my entire investment and now I'm earning ₹2.5 lakhs monthly profit. The support team guided me through every step!",
-      joinedYear: "2023",
-      monthlyRevenue: "₹8.5 Lakhs",
-      profitMargin: "30%",
-      background: "Former IT Professional",
-    },
-    {
-      id: 2,
-      name: "Priya Sharma",
-      location: "Mumbai",
-      businessName: "Gram Shree Mart - Andheri West",
-      photo: "/images/priya-sharma.jpg", // Placeholder
-      rating: 5,
-      quote:
-        "As a woman entrepreneur, I was initially hesitant about starting a business. But Gram Shree's comprehensive training and ongoing support made everything smooth. Today, I'm running two successful stores!",
-      joinedYear: "2022",
-      monthlyRevenue: "₹12 Lakhs",
-      profitMargin: "35%",
-      background: "Homemaker turned Entrepreneur",
-    },
-    {
-      id: 3,
-      name: "Amit Patel",
-      location: "Ahmedabad",
-      businessName: "Gram Shree Mart - Satellite",
-      photo: "/images/amit-patel.jpg", // Placeholder
-      rating: 5,
-      quote:
-        "The training program was excellent and the business model is proven. I started with the Mini Mart format and within 2 years expanded to Super Mart. The ROI is outstanding!",
-      joinedYear: "2021",
-      monthlyRevenue: "₹15 Lakhs",
-      profitMargin: "32%",
-      background: "Small Business Owner",
-    },
-    {
-      id: 4,
-      name: "Sunita Reddy",
-      location: "Bangalore",
-      businessName: "Gram Shree Mart - Koramangala",
-      photo: "/images/sunita-reddy.jpg", // Placeholder
-      rating: 5,
-      quote:
-        "The government scheme support helped me get a loan easily. Gram Shree's tie-ups with MUDRA made the financing process hassle-free. Now I'm planning my second outlet!",
-      joinedYear: "2023",
-      monthlyRevenue: "₹10 Lakhs",
-      profitMargin: "28%",
-      background: "First-time Entrepreneur",
-    },
-  ];
+  const testimonials = useMemo(() => TESTIMONIALS_DATA, []);
+  const caseStudies = useMemo(() => CASE_STUDIES_DATA, []);
 
-  const caseStudies = [
-    {
-      id: 1,
-      title: "From Zero to Hero: Rajesh's Journey",
-      entrepreneur: "Rajesh Kumar",
-      location: "Delhi",
-      investment: "₹8 Lakhs",
-      timeline: "18 Months",
-      results: {
-        monthlyRevenue: "₹8.5L",
-        monthlyProfit: "₹2.5L",
-        roi: "280%",
-        growth: "+150%",
-      },
-      story:
-        "Rajesh, a former IT professional, invested ₹8 lakhs in 2023. With Gram Shree's proven system and local market insights, he achieved break-even in just 8 months. His store now serves 500+ customers daily.",
-      keyFactors: [
-        "Strategic location selection by Gram Shree team",
-        "Comprehensive 30-day training program",
-        "Strong supplier network ensuring 15% cost savings",
-        "Digital marketing support increasing footfall by 40%",
-      ],
-    },
-    {
-      id: 2,
-      title: "Scaling Success: Priya's Multi-Store Empire",
-      entrepreneur: "Priya Sharma",
-      location: "Mumbai",
-      investment: "₹12 Lakhs",
-      timeline: "24 Months",
-      results: {
-        monthlyRevenue: "₹24L",
-        monthlyProfit: "₹8L",
-        roi: "320%",
-        growth: "+200%",
-      },
-      story:
-        "Priya started with one store and expanded to two locations within 24 months. Her success demonstrates the scalability of Gram Shree's business model with systematic expansion strategies.",
-      keyFactors: [
-        "Multi-location expansion support",
-        "Advanced inventory management systems",
-        "Staff training and management programs",
-        "Cross-promotional marketing strategies",
-      ],
-    },
-    {
-      id: 3,
-      title: "Government Support Success: Sunita's Story",
-      entrepreneur: "Sunita Reddy",
-      location: "Bangalore",
-      investment: "₹6 Lakhs",
-      timeline: "12 Months",
-      results: {
-        monthlyRevenue: "₹10L",
-        monthlyProfit: "₹2.8L",
-        roi: "250%",
-        growth: "+180%",
-      },
-      story:
-        "Sunita leveraged government schemes through Gram Shree's assistance, getting 25% subsidy on her investment. Her success shows how policy support can accelerate entrepreneurial growth.",
-      keyFactors: [
-        "MUDRA loan facilitation with 7% interest rate",
-        "25% government subsidy on project cost",
-        "Skill development program certification",
-        "Priority supplier credit terms",
-      ],
-    },
-  ];
-
-  // Auto-rotate testimonials
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 8000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const nextTestimonial = () => {
+  const nextTestimonial = useCallback(() => {
     setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
-  };
+  }, [testimonials.length]);
 
-  const prevTestimonial = () => {
+  const prevTestimonial = useCallback(() => {
     setActiveTestimonial(
       (prev) => (prev - 1 + testimonials.length) % testimonials.length
     );
-  };
+  }, [testimonials.length]);
+
+  const handleTestimonialClick = useCallback((index) => {
+    setActiveTestimonial(index);
+  }, []);
+
+  const handleCaseStudyToggle = useCallback((index) => {
+    setActiveCaseStudy((prev) => (prev === index ? null : index));
+  }, []);
+
+  // Auto-rotate testimonials
+  useEffect(() => {
+    const interval = setInterval(nextTestimonial, 8000);
+    return () => clearInterval(interval);
+  }, [nextTestimonial]);
+
+  const currentTestimonial = testimonials[activeTestimonial];
 
   return (
     <section className="py-20 bg-gradient-to-br from-green-50 to-orange-50">
@@ -197,10 +208,9 @@ const SuccessStories = () => {
                 <div className="text-center">
                   <div className="relative inline-block">
                     <div className="w-32 h-32 lg:w-40 lg:h-40 mx-auto mb-4 rounded-full bg-gradient-to-br from-green-200 to-orange-200 flex items-center justify-center overflow-hidden border-4 border-white shadow-lg">
-                      {/* Placeholder for photo */}
                       <div className="w-full h-full bg-gradient-to-br from-green-100 to-orange-100 flex items-center justify-center">
                         <span className="text-4xl font-bold text-gray-600">
-                          {testimonials[activeTestimonial].name.charAt(0)}
+                          {currentTestimonial.name.charAt(0)}
                         </span>
                       </div>
                     </div>
@@ -211,14 +221,12 @@ const SuccessStories = () => {
 
                   {/* Rating */}
                   <div className="flex justify-center mb-3">
-                    {[...Array(testimonials[activeTestimonial].rating)].map(
-                      (_, i) => (
-                        <Star
-                          key={i}
-                          className="w-5 h-5 text-yellow-400 fill-current"
-                        />
-                      )
-                    )}
+                    {Array.from({ length: currentTestimonial.rating }, (_, i) => (
+                      <Star
+                        key={i}
+                        className="w-5 h-5 text-yellow-400 fill-current"
+                      />
+                    ))}
                   </div>
 
                   {/* Business Stats */}
@@ -228,7 +236,7 @@ const SuccessStories = () => {
                         Revenue:{" "}
                       </span>
                       <span className="text-green-600">
-                        {testimonials[activeTestimonial].monthlyRevenue}/month
+                        {currentTestimonial.monthlyRevenue}/month
                       </span>
                     </div>
                     <div className="bg-orange-50 px-3 py-1 rounded-full">
@@ -236,7 +244,7 @@ const SuccessStories = () => {
                         Profit:{" "}
                       </span>
                       <span className="text-orange-600">
-                        {testimonials[activeTestimonial].profitMargin}
+                        {currentTestimonial.profitMargin}
                       </span>
                     </div>
                   </div>
@@ -245,22 +253,22 @@ const SuccessStories = () => {
                 {/* Quote & Details */}
                 <div className="lg:col-span-2 space-y-6">
                   <blockquote className="text-xl lg:text-2xl text-gray-700 italic leading-relaxed">
-                    "{testimonials[activeTestimonial].quote}"
+                    "{currentTestimonial.quote}"
                   </blockquote>
 
                   <div className="border-l-4 border-green-500 pl-6">
                     <h3 className="text-xl font-bold text-gray-900">
-                      {testimonials[activeTestimonial].name}
+                      {currentTestimonial.name}
                     </h3>
                     <p className="text-orange-600 font-semibold">
-                      {testimonials[activeTestimonial].businessName}
+                      {currentTestimonial.businessName}
                     </p>
                     <p className="text-gray-600">
-                      {testimonials[activeTestimonial].location} •{" "}
-                      {testimonials[activeTestimonial].background}
+                      {currentTestimonial.location} •{" "}
+                      {currentTestimonial.background}
                     </p>
                     <p className="text-sm text-gray-500 mt-2">
-                      Joined in {testimonials[activeTestimonial].joinedYear}
+                      Joined in {currentTestimonial.joinedYear}
                     </p>
                   </div>
                 </div>
@@ -270,16 +278,20 @@ const SuccessStories = () => {
             {/* Navigation */}
             <div className="absolute top-1/2 left-4 transform -translate-y-1/2">
               <button
+                type="button"
                 onClick={prevTestimonial}
                 className="bg-white/80 backdrop-blur-sm hover:bg-white text-gray-700 p-2 rounded-full shadow-lg transition-all hover:scale-110"
+                aria-label="Previous testimonial"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
             </div>
             <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
               <button
+                type="button"
                 onClick={nextTestimonial}
                 className="bg-white/80 backdrop-blur-sm hover:bg-white text-gray-700 p-2 rounded-full shadow-lg transition-all hover:scale-110"
+                aria-label="Next testimonial"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
@@ -291,12 +303,14 @@ const SuccessStories = () => {
             {testimonials.map((_, index) => (
               <button
                 key={index}
-                onClick={() => setActiveTestimonial(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                type="button"
+                onClick={() => handleTestimonialClick(index)}
+                className={`h-3 rounded-full transition-all duration-300 ${
                   index === activeTestimonial
                     ? "bg-gradient-to-r from-green-500 to-orange-500 w-8"
-                    : "bg-gray-300 hover:bg-gray-400"
+                    : "bg-gray-300 hover:bg-gray-400 w-3"
                 }`}
+                aria-label={`Go to testimonial ${index + 1}`}
               />
             ))}
           </div>
@@ -376,7 +390,7 @@ const SuccessStories = () => {
 
                   {/* Expandable Details */}
                   {activeCaseStudy === index && (
-                    <div className="border-t pt-4 space-y-3 animate-fadeIn">
+                    <div className="border-t pt-4 space-y-3 opacity-0 translate-y-2 animate-[fadeIn_0.3s_ease-out_forwards]">
                       <h5 className="font-semibold text-gray-900">
                         Key Success Factors:
                       </h5>
@@ -395,11 +409,8 @@ const SuccessStories = () => {
                   )}
 
                   <button
-                    onClick={() =>
-                      setActiveCaseStudy(
-                        activeCaseStudy === index ? null : index
-                      )
-                    }
+                    type="button"
+                    onClick={() => handleCaseStudyToggle(index)}
                     className={`w-full mt-4 py-2 rounded-lg font-semibold transition-colors duration-300 ${
                       activeCaseStudy === index
                         ? "bg-gradient-to-r from-green-500 to-orange-500 text-white"
@@ -426,10 +437,16 @@ const SuccessStories = () => {
             businesses with Gram Shree Mart. Your success story could be next!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105 shadow-lg">
+            <button 
+              type="button"
+              className="bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105 shadow-lg"
+            >
               Start Your Journey
             </button>
-            <button className="border-2 border-orange-500 text-orange-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-orange-500 hover:text-white transition-all transform hover:scale-105">
+            <button 
+              type="button"
+              className="border-2 border-orange-500 text-orange-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-orange-500 hover:text-white transition-all transform hover:scale-105"
+            >
               Talk to Success Stories
             </button>
           </div>
@@ -446,10 +463,6 @@ const SuccessStories = () => {
             opacity: 1;
             transform: translateY(0);
           }
-        }
-
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
         }
       `}</style>
     </section>

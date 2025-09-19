@@ -1,8 +1,7 @@
-// app/CallToActionSection.js
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { ArrowRight, Award, Phone, Mail } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { ArrowRight, Award, Phone, Mail } from "lucide-react";
 
 const CallToActionSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -20,11 +19,12 @@ const CallToActionSection = () => {
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          
           {/* Badge */}
-          <div 
+          <div
             className={`inline-flex items-center bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium mb-6 transition-all duration-800 ${
-              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-5 opacity-0"
             }`}
           >
             <Award className="w-4 h-4 mr-2" />
@@ -32,46 +32,53 @@ const CallToActionSection = () => {
           </div>
 
           {/* Main Headline */}
-          <h2 
+          <h2
             className={`text-3xl md:text-5xl font-bold text-white mb-4 leading-tight transition-all duration-800 delay-200 ${
-              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-5 opacity-0"
             }`}
           >
-            Be your own boss with{' '}
-            <span className="text-yellow-300">Gramshree!</span>{' '}
-           
+            Be your own boss with{" "}
+            <span className="text-yellow-300">Gramshree!</span>
           </h2>
 
           {/* Subheadline */}
-          <p 
+          <p
             className={`text-lg text-white/90 max-w-2xl mx-auto mb-8 transition-all duration-800 delay-400 ${
-              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-5 opacity-0"
             }`}
           >
-            Join India's fastest-growing supermarket chain with government support, 
-            proven systems, and complete training.
+            Join India&apos;s fastest-growing supermarket chain with government
+            support, proven systems, and complete training.
           </p>
 
           {/* CTA Buttons */}
-          <div 
+          <div
             className={`flex flex-col sm:flex-row gap-4 justify-center mb-8 transition-all duration-800 delay-600 ${
-              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-5 opacity-0"
             }`}
           >
             <button className="group bg-white text-green-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center justify-center space-x-2">
               <span>Start Your Journey Today</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
             </button>
-            
+
             <button className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-green-600 transition-all duration-300 transform hover:scale-105">
               Download Brochure
             </button>
           </div>
 
           {/* Contact Info */}
-          <div 
+          <div
             className={`flex flex-col sm:flex-row items-center justify-center gap-6 text-white/90 transition-all duration-800 delay-800 ${
-              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-5 opacity-0"
             }`}
           >
             <div className="flex items-center space-x-2">

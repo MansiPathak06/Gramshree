@@ -1,7 +1,7 @@
-// app/HeroSection.js
 "use client";
 
-import React from 'react';
+import React from "react";
+import Image from "next/image";
 
 const HeroSection = () => {
   return (
@@ -12,6 +12,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-green-600/10 to-orange-600/10"></div>
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left Content */}
           <div className="text-left space-y-8">
             <div className="space-y-4">
               <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
@@ -21,10 +22,12 @@ const HeroSection = () => {
                 </span>
               </h1>
               <p className="text-xl text-gray-600 leading-relaxed">
-                Join Gramshree and become a part of India's growing entrepreneurial network.
+                Join Gramshree and become a part of India's growing
+                entrepreneurial network.
               </p>
             </div>
 
+            {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <button className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-orange-600 hover:to-orange-700 transition-all transform hover:scale-105 shadow-lg">
                 Apply for Franchise
@@ -35,12 +38,16 @@ const HeroSection = () => {
             </div>
           </div>
 
+          {/* Right Image */}
           <div className="relative">
             <div className="relative z-10 transform hover:scale-105 transition-transform duration-500">
-              <img
+              <Image
                 src="/images/gmart.png"
                 alt="Gram Shree Mart Store"
+                width={600}
+                height={400}
                 className="w-full h-auto rounded-2xl shadow-2xl scale-110"
+                priority
               />
             </div>
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-orange-200 rounded-full opacity-20 animate-pulse"></div>
