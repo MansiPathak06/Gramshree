@@ -110,7 +110,7 @@ const Footer = () => {
                   <div className="flex items-center space-x-3">
                     <Phone className="w-5 h-5 text-orange-400 flex-shrink-0" />
                     <div>
-                      <p className="text-gray-300">+91 94038 91519</p>
+                      <p className="text-gray-300">+91 9654443799</p>
                       <p className="text-sm text-gray-400">
                         Mon-Sat 9:00 AM - 7:00 PM
                       </p>
@@ -120,7 +120,7 @@ const Footer = () => {
                     <Mail className="w-5 h-5 text-orange-400 flex-shrink-0" />
                     <div>
                       <p className="text-gray-300">
-                        franchise@gramshreemart.com
+                        franchise@gramshree.co.in
                       </p>
                       <p className="text-sm text-gray-400">
                         Response within 24 hours

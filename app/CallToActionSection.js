@@ -68,9 +68,13 @@ const CallToActionSection = () => {
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
             </button>
 
-            <button className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-green-600 transition-all duration-300 transform hover:scale-105">
+            <a
+              href="/brochure.pdf"
+              download
+              className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-green-600 transition-all duration-300 transform hover:scale-105"
+            >
               Download Brochure
-            </button>
+            </a>
           </div>
 
           {/* Contact Info */}

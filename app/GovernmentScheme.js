@@ -27,7 +27,7 @@ const GovernmentScheme = () => {
     {
       icon: <Briefcase className="w-8 h-8" />,
       title: "Loan Amount",
-      description: "Up to ₹5 Lakh",
+      description: "Up to ₹10 Lakh",
       detail: "Collateral-free loans under MUDRA scheme",
     },
     {
@@ -247,8 +247,8 @@ const GovernmentScheme = () => {
               </h3>
               <div className="space-y-4">
                 {[
-                  "Collateral-free loans up to ₹5 lakhs",
-                  "Lower interest rates (7-12% annually)",
+                  "Collateral-free loans up to ₹10 lakhs",
+                  "Interest Free Loans",
                   "Government subsidy on project costs",
                   "Comprehensive skill development training",
                   "Ongoing mentorship and support",
@@ -265,7 +265,7 @@ const GovernmentScheme = () => {
             <div className="text-center">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
                 <h4 className="text-2xl font-bold mb-4">Success Rate</h4>
-                <div className="text-5xl font-bold mb-2">85%</div>
+                <div className="text-5xl font-bold mb-2">95%</div>
                 <p className="text-black/80">
                   Of applicants successfully receive funding
                 </p>

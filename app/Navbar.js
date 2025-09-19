@@ -3,10 +3,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+   const router = useRouter();
 
   // Handle scroll effect
   useEffect(() => {
@@ -121,8 +123,8 @@ const Navbar = () => {
               </Link>
               
               <Link 
-                href="#resources" 
-                onClick={(e) => handleSmoothScroll(e, '#resources')}
+                href="/resources" 
+               
                 className="text-gray-800 hover:text-[#4CAF50] font-medium transition-colors duration-300 relative group"
               >
                 Resources
@@ -130,8 +132,8 @@ const Navbar = () => {
               </Link>
               
               <Link 
-                href="#contact" 
-                onClick={(e) => handleSmoothScroll(e, '#contact')}
+                href="/contact" 
+                
                 className="text-gray-800 hover:text-[#4CAF50] font-medium transition-colors duration-300 relative group"
               >
                 Contact
@@ -142,12 +144,13 @@ const Navbar = () => {
 
           {/* Desktop CTA Button */}
           <div className="hidden md:block">
-            <button 
-              className="bg-gradient-to-r from-[#f17e00] to-[#e06d00] text-white px-6 py-2 rounded-full font-semibold hover:from-[#e06d00] hover:to-[#d15c00] transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[#4CAF50] focus:ring-offset-2"
-              type="button"
-            >
-              Apply Now
-            </button>
+             <button
+      onClick={() => router.push("/contact")}
+      className="bg-gradient-to-r from-[#f17e00] to-[#e06d00] text-white px-6 py-2 rounded-full font-semibold hover:from-[#e06d00] hover:to-[#d15c00] transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[#4CAF50] focus:ring-offset-2"
+      type="button"
+    >
+      Apply Now
+    </button>
           </div>
 
           {/* Mobile menu button */}
