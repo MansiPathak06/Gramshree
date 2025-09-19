@@ -87,7 +87,7 @@ const ContactPage = () => {
               {submitSuccess && (
                 <div className="mb-6 p-4 bg-green-100 border border-green-200 rounded-lg flex items-center">
                   <CheckCircle className="w-5 h-5 text-green-600 mr-3" />
-                  <span className="text-green-800">Message sent successfully! We'll get back to you soon.</span>
+                  <span className="text-green-800">Message sent successfully! We&apos;ll get back to you soon.</span>
                 </div>
               )}
 
