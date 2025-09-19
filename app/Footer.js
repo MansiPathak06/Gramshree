@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 
 import React from "react";
 import {
@@ -78,8 +79,10 @@ const Footer = () => {
             {/* Company Info */}
             <div className="lg:col-span-2 space-y-6">
               <div>
-                <img
+                <Image
                   src="/images/gram-shree-logo.png"
+                  width={200} 
+                  height={50}
                   alt="Gram Shree Mart"
                   className="h-12 w-auto mb-4"
                 />
@@ -119,9 +122,7 @@ const Footer = () => {
                   <div className="flex items-center space-x-3">
                     <Mail className="w-5 h-5 text-orange-400 flex-shrink-0" />
                     <div>
-                      <p className="text-gray-300">
-                        franchise@gramshree.co.in
-                      </p>
+                      <p className="text-gray-300">franchise@gramshree.co.in</p>
                       <p className="text-sm text-gray-400">
                         Response within 24 hours
                       </p>
