@@ -22,7 +22,7 @@ const HeroSection = () => {
                 </span>
               </h1>
               <p className="text-xl text-gray-600 leading-relaxed">
-                Join Gramshree and become a part of India's growing
+                Join Gramshree and become a part of India&apos;s growing
                 entrepreneurial network.
               </p>
             </div>

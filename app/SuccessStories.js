@@ -253,7 +253,7 @@ const SuccessStories = () => {
                 {/* Quote & Details */}
                 <div className="lg:col-span-2 space-y-6">
                   <blockquote className="text-xl lg:text-2xl text-gray-700 italic leading-relaxed">
-                    "{currentTestimonial.quote}"
+                    &ldquo;{currentTestimonial.quote}&rdquo;
                   </blockquote>
 
                   <div className="border-l-4 border-green-500 pl-6">
