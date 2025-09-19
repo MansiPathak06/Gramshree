@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef, useCallback, useMemo } from 'react';
-import { Factory, MapPin, Building2 } from 'lucide-react';
+import React, { useEffect, useRef, useCallback, useMemo, useState } from 'react';
+import { Factory, MapPin, Building2, Menu, X } from 'lucide-react';
 
 // Move static data outside component to prevent re-renders
 const FACTORY_DATA = {
@@ -45,6 +45,7 @@ const DistributionMap = () => {
   const mapInstanceRef = useRef(null);
   const linkRef = useRef(null);
   const scriptRef = useRef(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const factory = useMemo(() => FACTORY_DATA, []);
   const distributionPoints = useMemo(() => DISTRIBUTION_POINTS, []);
@@ -124,10 +125,10 @@ const DistributionMap = () => {
         }).addTo(map);
       });
 
-      // Add custom info control
+      // Add custom info control for desktop only
       const info = window.L.control({ position: 'topright' });
       info.onAdd = function () {
-        const div = window.L.DomUtil.create('div', 'bg-white p-2 rounded-lg shadow-lg border');
+        const div = window.L.DomUtil.create('div', 'bg-white p-2 rounded-lg shadow-lg border hidden lg:block');
         div.innerHTML = `
           <h4 class="font-bold text-gray-800 mb-1 text-xs">Network</h4>
           <div class="space-y-1 text-xs">
@@ -199,88 +200,150 @@ const DistributionMap = () => {
   }), [countByState]);
 
   return (
-    <div className="flex flex-col lg:flex-row h-120 bg-gray-50 rounded-lg overflow-hidden shadow-lg">
-      {/* Map Container */}
-      <div className="flex-1 p-2">
-        <div className="bg-white rounded-lg shadow h-full overflow-hidden">
-          <div ref={mapRef} className="w-full h-full" role="application" aria-label="Distribution network map" />
-        </div>
-      </div>
+    <div className="relative w-full">
+      {/* Mobile Menu Button - Fixed Position */}
+      <button 
+        className="fixed top-4 right-4 z-50 lg:hidden bg-white p-2 rounded-lg shadow-lg border"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        aria-label="Toggle network information"
+      >
+        {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+      </button>
 
-      {/* Sidebar */}
-      <div className="w-full lg:w-72 bg-white shadow-xl p-4 overflow-y-auto">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Distribution Network</h2>
-
-        {/* Manufacturing Hub */}
-        <div className="mb-4">
-          <div className="flex items-center mb-2">
-            <Factory className="w-5 h-5 text-red-600 mr-2" aria-hidden="true" />
-            <h3 className="text-sm font-semibold text-gray-800">Manufacturing Hub</h3>
-          </div>
-          <p className="text-gray-600 text-xs">
-            Main factory in Moradabad, UP
-          </p>
-        </div>
-
-        {/* Distribution Reach */}
-        <div className="mb-4">
-          <div className="flex items-center mb-2">
-            <MapPin className="w-5 h-5 text-blue-600 mr-2" aria-hidden="true" />
-            <h3 className="text-sm font-semibold text-gray-800">Coverage</h3>
-          </div>
-          <ul className="space-y-1 text-xs text-gray-600">
-            <li className="flex justify-between">
-              <span>UP & Delhi</span>
-              <span className="text-blue-600 font-medium">{stateCounts.upDelhi}</span>
-            </li>
-            <li className="flex justify-between">
-              <span>Uttarakhand</span>
-              <span className="text-blue-600 font-medium">{stateCounts.uttarakhand}</span>
-            </li>
-            <li className="flex justify-between">
-              <span>Haryana</span>
-              <span className="text-blue-600 font-medium">{stateCounts.haryana}</span>
-            </li>
-          </ul>
-        </div>
-
-        {/* Key Markets */}
-        <div className="mb-4">
-          <div className="flex items-center mb-2">
-            <Building2 className="w-5 h-5 text-green-600 mr-2" aria-hidden="true" />
-            <h3 className="text-sm font-semibold text-gray-800">Key Markets</h3>
-          </div>
-          <div className="flex flex-wrap gap-1">
-            {keyMarkets.map((market, index) => (
-              <span
-                key={index}
-                className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium"
-              >
-                {market}
-              </span>
-            ))}
+      {/* Main Container */}
+      <div className="flex flex-col lg:flex-row min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] bg-gray-50 rounded-lg overflow-hidden shadow-lg">
+        
+        {/* Map Container */}
+        <div className="flex-1 relative">
+          <div className="bg-white rounded-t-lg lg:rounded-l-lg lg:rounded-tr-none shadow h-64 sm:h-80 md:h-96 lg:h-full overflow-hidden">
+            <div ref={mapRef} className="w-full h-full" role="application" aria-label="Distribution network map" />
           </div>
         </div>
 
-        {/* CTA Button */}
-        <button 
-          type="button"
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors duration-200 shadow-md mb-3"
-          aria-label="Apply to become a distributor"
-        >
-          Become a Distributor
-        </button>
+        {/* Mobile Sidebar Overlay */}
+        {sidebarOpen && (
+          <div className="fixed inset-0 z-40 lg:hidden">
+            <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setSidebarOpen(false)} />
+            <div className="absolute right-0 top-0 h-full w-80 max-w-[90vw] bg-white shadow-xl overflow-y-auto">
+              <SidebarContent 
+                stateCounts={stateCounts} 
+                keyMarkets={keyMarkets} 
+                distributionPoints={distributionPoints} 
+                className="p-4 pt-16"
+              />
+            </div>
+          </div>
+        )}
 
-        {/* Network Summary */}
-        <div className="p-3 bg-gray-50 rounded-lg">
-          <h4 className="font-semibold text-gray-800 mb-1 text-sm">Network Stats</h4>
-          <p className="text-xs text-gray-600">
-            {distributionPoints.length + 1} total locations across North India
-          </p>
+        {/* Desktop Sidebar */}
+        <div className="hidden lg:block w-80 xl:w-96 bg-white shadow-xl">
+          <SidebarContent 
+            stateCounts={stateCounts} 
+            keyMarkets={keyMarkets} 
+            distributionPoints={distributionPoints} 
+            className="p-4 h-full overflow-y-auto"
+          />
+        </div>
+
+        {/* Mobile Bottom Info Panel */}
+        <div className="lg:hidden bg-white border-t p-4">
+          <div className="flex flex-wrap gap-4 text-sm">
+            <div className="flex items-center">
+              <div className="w-3 h-3 bg-red-600 rounded-full mr-2"></div>
+              <span className="text-gray-600">Factory (1)</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-3 h-3 bg-blue-600 rounded-full mr-2"></div>
+              <span className="text-gray-600">Distribution Points ({distributionPoints.length})</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 };
+
+// Extracted sidebar content component for reusability
+const SidebarContent = ({ stateCounts, keyMarkets, distributionPoints, className }) => (
+  <div className={className}>
+    <h2 className="text-xl xl:text-2xl font-bold text-gray-800 mb-6">Distribution Network</h2>
+
+    {/* Manufacturing Hub */}
+    <div className="mb-6">
+      <div className="flex items-center mb-3">
+        <Factory className="w-5 h-5 text-red-600 mr-2" aria-hidden="true" />
+        <h3 className="text-sm xl:text-base font-semibold text-gray-800">Manufacturing Hub</h3>
+      </div>
+      <p className="text-gray-600 text-sm">
+        Main factory in Moradabad, UP
+      </p>
+    </div>
+
+    {/* Distribution Reach */}
+    <div className="mb-6">
+      <div className="flex items-center mb-3">
+        <MapPin className="w-5 h-5 text-blue-600 mr-2" aria-hidden="true" />
+        <h3 className="text-sm xl:text-base font-semibold text-gray-800">Coverage</h3>
+      </div>
+      <ul className="space-y-2 text-sm text-gray-600">
+        <li className="flex justify-between items-center py-1">
+          <span>UP & Delhi</span>
+          <span className="text-blue-600 font-medium bg-blue-50 px-2 py-1 rounded-full text-xs">
+            {stateCounts.upDelhi}
+          </span>
+        </li>
+        <li className="flex justify-between items-center py-1">
+          <span>Uttarakhand</span>
+          <span className="text-blue-600 font-medium bg-blue-50 px-2 py-1 rounded-full text-xs">
+            {stateCounts.uttarakhand}
+          </span>
+        </li>
+        <li className="flex justify-between items-center py-1">
+          <span>Haryana</span>
+          <span className="text-blue-600 font-medium bg-blue-50 px-2 py-1 rounded-full text-xs">
+            {stateCounts.haryana}
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    {/* Key Markets */}
+    <div className="mb-6">
+      <div className="flex items-center mb-3">
+        <Building2 className="w-5 h-5 text-green-600 mr-2" aria-hidden="true" />
+        <h3 className="text-sm xl:text-base font-semibold text-gray-800">Key Markets</h3>
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {keyMarkets.map((market, index) => (
+          <span
+            key={index}
+            className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs xl:text-sm font-medium"
+          >
+            {market}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    {/* CTA Button */}
+    <button 
+      type="button"
+      className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg text-sm xl:text-base font-semibold hover:bg-blue-700 transition-colors duration-200 shadow-md mb-4 active:scale-95 transform"
+      aria-label="Apply to become a distributor"
+    >
+      Become a Distributor
+    </button>
+
+    {/* Network Summary */}
+    <div className="p-4 bg-gray-50 rounded-lg">
+      <h4 className="font-semibold text-gray-800 mb-2 text-sm xl:text-base">Network Stats</h4>
+      <div className="space-y-1 text-xs xl:text-sm text-gray-600">
+        <p>{distributionPoints.length + 1} total locations</p>
+        <p>Covering North India</p>
+        <p>Expanding rapidly</p>
+      </div>
+    </div>
+  </div>
+);
 
 export default DistributionMap;
