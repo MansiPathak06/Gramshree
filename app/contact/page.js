@@ -193,7 +193,7 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">Phone</h3>
-                    <p className="text-gray-600">+91 94038 91519</p>
+                    <p className="text-gray-600">+91  9654443799</p>
                   </div>
                 </div>
 
@@ -287,7 +287,7 @@ const ContactPage = () => {
                         <Phone className="w-5 h-5 text-gray-400 mr-3" />
                         <div>
                           <h4 className="font-semibold text-gray-900 mb-1">Phone</h4>
-                          <p className="text-gray-600">+91 94038 91519</p>
+                          <p className="text-gray-600">+91  9654443799</p>
                         </div>
                       </div>
                     </div>
